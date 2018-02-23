@@ -19,6 +19,14 @@
   // Do any additional setup after loading the view, typically from a nib.
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+  self.tipPercentageTextField.keyboardType = UIKeyboardTypeDecimalPad;
+  self.billAmountTextField.keyboardType = UIKeyboardTypeDecimalPad;
+
+  [self.tipPercentageTextField becomeFirstResponder];
+  [self.billAmountTextField becomeFirstResponder];
+  
+}
 
 - (void)didReceiveMemoryWarning {
   [super didReceiveMemoryWarning];
@@ -26,8 +34,7 @@
 }
 
 - (IBAction)calculateTip:(id)sender {
-//  float tipAmountFloat =
-//  float billAmountFloat =
+  
   NSString *stringBillAmount = [self.billAmountTextField text];
   float floatBillAmount = [stringBillAmount floatValue];
   NSString *stringTipPercentage = [self.tipPercentageTextField text];
@@ -36,7 +43,7 @@
   float floatTipAmount = floatBillAmount * floatTipPercentage / 100;
   
   NSString *stringTipAmount = [NSString stringWithFormat:@"%.2f", floatTipAmount];
-  NSLog(@"%@", stringTipAmount);
+//  NSLog(@"%@", stringTipAmount);
   self.tipAmountLabel.text = stringTipAmount;
 }
 
