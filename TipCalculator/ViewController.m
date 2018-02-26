@@ -32,17 +32,24 @@ float floatTipAmount;
 }
 - (IBAction)calculateSplitAmount:(id)sender {
   
+  NSDecimalNumber *decimalBillAmount = [[NSDecimalNumber alloc] initWithString:self.billAmountTextField.text];
+  NSLog(@"%@", decimalBillAmount);
   
-  NSString *stringBillAmount = [self.billAmountTextField text];
-  float floatBillAmount = [stringBillAmount floatValue];
-
+  //must convert slider value to interger, and then to a float, and then to a decimal number. otherwise, the split amount output will be inaccurate by infinite decimal places
   float floatNumberOfPeople = (int) self.numberOfPeopleSlider.value;
+  NSDecimalNumber *decimalNumberOfPeople = [[NSDecimalNumber alloc] initWithFloat:floatNumberOfPeople];
+  NSLog(@"%@", decimalNumberOfPeople);
+
   
-  floatTipAmount = [self.tipAmountLabel.text floatValue];
+  NSDecimalNumber *decimalTipAmount = [[NSDecimalNumber alloc] initWithString:self.tipAmountLabel.text];
+  NSLog(@"%@", decimalTipAmount);
+
   
-  float floatSplitAmount = ( floatBillAmount + floatTipAmount )/ floatNumberOfPeople;
+  NSDecimalNumber *decimalSplitAmount = [decimalBillAmount decimalNumberByAdding:decimalTipAmount];
+  decimalSplitAmount = [decimalSplitAmount decimalNumberByDividingBy:decimalNumberOfPeople];
   
-  self.splitAmount.text = [NSString stringWithFormat:@"%.2f", floatSplitAmount];
+  self.splitAmount.text = [NSString stringWithFormat:@"%@", decimalSplitAmount];
+  
 }
 
 - (void)viewDidAppear:(BOOL)animated {
